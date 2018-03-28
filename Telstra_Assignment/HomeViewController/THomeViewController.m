@@ -243,6 +243,6 @@ static NSString *cellIdentifier = @"factCell";
     activityIndicator.hidden = YES;
     [homeTableView reloadData];
     [homeTableView scrollsToTop];
-    [self showAlertWithTitle:@"Error!" andMessage:@"No Network Connection"];
+    [self showAlertWithTitle:@"Error!" andMessage:@"Host is not reachable . Please check your network connectivity"];
 }
 @end
