@@ -113,6 +113,7 @@ static NSString *cellIdentifier = @"factCell";
             break;
     }
 }
+// FETCH FACT DATA AND RELOAD THE TABLE
 -(void)setUpData
 {
     [homeTableView bringSubviewToFront:activityIndicator];
@@ -180,16 +181,16 @@ static NSString *cellIdentifier = @"factCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     fact = [factRequestResponse.factsArray objectAtIndex:indexPath.row];
     
-    float titleHeight = [self calculateHeightOfCellForText:fact.factTitle fontSize:18.0];
-    float descriptionHeight = [self calculateHeightOfCellForText:fact.factDescription fontSize:12.0];
+    float titleHeight = [self calculateHeightOfCellForText:fact.factTitle fontSize:K_TITLE_FONTSIZE];
+    float descriptionHeight = [self calculateHeightOfCellForText:fact.factDescription fontSize:K_DESCRIPTION_FONTSIZE];
     float totalLblsHeight = titleHeight + descriptionHeight;
     
     UIImage *image = fact.factImage;
     if (image) {
-        return fact.factImage.size.height + 50.0 + totalLblsHeight;
+        return fact.factImage.size.height + K_DEFAULT_HEIGHT_OFFSET + totalLblsHeight;
     }
     else {
-        return totalLblsHeight + 50.0; // Default value..
+        return totalLblsHeight + K_DEFAULT_HEIGHT_OFFSET; // Default value..
     }
 }
 
@@ -207,7 +208,7 @@ static NSString *cellIdentifier = @"factCell";
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 }
-
+// ALERT GENERALISED METHOD
 -(void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)message
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -217,7 +218,7 @@ static NSString *cellIdentifier = @"factCell";
 }
 
 #pragma mark - Reachability Notification and Related Methods
-
+// NOTIFICATION WHEN REACHABILIT CHANGES
 - (void) reachabilityChanged:(NSNotification *)note
 {
     NetworkStatus myStatus = [[Reachability reachabilityWithHostName:K_TSERVICE_BASE_URL]currentReachabilityStatus];
@@ -233,7 +234,7 @@ static NSString *cellIdentifier = @"factCell";
             break;
     }
 }
-
+// SHOW THE ALERT WHEN HOST IS NOT REACHABLE
 -(void)notReachableSetUp
 {
     if (refreshControl.isRefreshing) {
@@ -243,6 +244,6 @@ static NSString *cellIdentifier = @"factCell";
     activityIndicator.hidden = YES;
     [homeTableView reloadData];
     [homeTableView scrollsToTop];
-    [self showAlertWithTitle:@"Error!" andMessage:@"Host is not reachable . Please check your network connectivity"];
+    [self showAlertWithTitle:K_HOSTUNREACHABLE_ALERT_TITLE andMessage:K_HOSTUNREACHABLE_ALERT_MESSAGE];
 }
 @end
